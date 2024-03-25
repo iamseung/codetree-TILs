@@ -36,7 +36,7 @@ public class Main {
             int y = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken());
 
-            que.add(x); que.add(y);
+            que.add(x-1); que.add(y-1);
         }
     }
 
