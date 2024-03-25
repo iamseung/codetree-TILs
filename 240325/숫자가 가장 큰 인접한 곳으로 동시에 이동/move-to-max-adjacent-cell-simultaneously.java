@@ -30,8 +30,7 @@ public class Main {
             }
         }
 
-        move = new int[N][N];
-
+        // 구슬의 위치
         while(M-->0) {
             st = new StringTokenizer(br.readLine());
             int y = Integer.parseInt(st.nextToken());
@@ -43,6 +42,8 @@ public class Main {
 
     static void process() {
         while(T-- >0) {
+            move = new int[N][N];
+
             // 구슬의 위치 POP
             while (!que.isEmpty()) {
                 int x = que.poll();
