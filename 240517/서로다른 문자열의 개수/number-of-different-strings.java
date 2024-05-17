@@ -1,4 +1,6 @@
+import java.util.*;
 import java.io.*;
+import java.math.BigInteger;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,19 +16,19 @@ public class Main {
     }
     
     static void simulate() {
-        long twoNFactorial = factorial(2 * N);
-        long nFactorial = factorial(N);
-        long nPlusOneFactorial = factorial(N + 1);
+        BigInteger twoNFactorial = factorial(2 * N);
+        BigInteger nFactorial = factorial(N);
+        BigInteger nPlusOneFactorial = factorial(N + 1);
 
         // C_n = (2n)! / (n! * (n + 1)!)
-        long result = twoNFactorial / (nFactorial * nPlusOneFactorial);
+        BigInteger result = twoNFactorial.divide(nFactorial.multiply(nPlusOneFactorial));
         System.out.println(result);
     }
 
-    static long factorial(int number) {
-        long result = 1;
+    static BigInteger factorial(int number) {
+        BigInteger result = BigInteger.ONE;
         for (int factor = 2; factor <= number; factor++) {
-            result *= factor;
+            result = result.multiply(BigInteger.valueOf(factor));
         }
         return result;
     }
