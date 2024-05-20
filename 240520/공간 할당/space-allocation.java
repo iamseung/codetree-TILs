@@ -3,22 +3,10 @@ import java.io.*;
 import java.math.BigInteger;
 
 public class Main {
-    static class Item {
-        int value; // 만족도
-        int size; // 공간의 크기
-
-        public void setValue(int v) {
-            this.value = v;
-        }
-
-        public void setSize(int s) {
-            this.size = s;
-        }
-    }
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static int N, M;
-    static List<Item> items;
+    static int[] satisfactions, spaces;
     
     public static void main(String[] args) throws IOException {
         input();
@@ -29,45 +17,52 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken()); // 물건의 개수
         M = Integer.parseInt(st.nextToken()); // 만족 총합 M 이상
-
-        items = new ArrayList<>();
         
         st = new StringTokenizer(br.readLine());
 
+        satisfactions = new int[N];
+        spaces = new int[N];
+
         for(int i=0; i<N; i++) {
-            Item item = new Item();
-            item.setValue(Integer.parseInt(st.nextToken()));
-            items.add(item);
+            satisfactions[i] = Integer.parseInt(st.nextToken());
         }
 
         st = new StringTokenizer(br.readLine());
 
         for(int i=0; i<N; i++) {
-            Item item = items.get(i);
-            item.setSize(Integer.parseInt(st.nextToken()));
+            spaces[i] = Integer.parseInt(st.nextToken());
         }
     }
     
     static void simulate() {
-        /*
-         * int value; // 만족도
-         * int size; // 공간의 크기
-         * 만족도의 총합이 m 이상이 되도록 할 때 공간 크기의 총합의 최솟값을 출력
-         */
+        // 만족도의 최대 가능한 합을 계산
+        int S_max = Arrays.stream(satisfactions).sum();
 
-        Collections.sort(items, (e1, e2) -> {
-            if(e1.size == e2.size) return e1.value - e2.value;
-            return e1.size - e2.size;
-        });
+        // 최대 만족도는 m과 계산된 S_max 중 더 큰 값으로 설정합니다.
+        S_max = Math.max(S_max, M);
 
-        int index = 0, sum = 0, answer = 0;
-        while(sum < M && index < N) {
-            Item cur = items.get(index);
-            sum += cur.value;
-            answer += cur.size;
-            index++;
+        int[] dp = new int[S_max+1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+
+        for(int i=0; i<N; i++) {
+            int satisfaction = satisfactions[i];
+            int space = spaces[i];
+
+            for(int j=S_max; j>= satisfaction; j--) {
+                if(dp[j - satisfaction] != Integer.MAX_VALUE)
+                    dp[j] = Math.min(dp[j], dp[j - satisfaction] + space);
+            }
         }
-        
-        System.out.println(sum < M ? -1 : answer);
+
+        // m 이상의 만족도를 가진 경우 중 최소 공간을 찾습니다.
+        int minSpace = Integer.MAX_VALUE;
+        for (int j = M; j <= S_max; j++) {
+            if (dp[j] < minSpace) {
+                minSpace = dp[j];
+            }
+        }
+
+        System.out.println(minSpace == Integer.MAX_VALUE ? -1 : minSpace);
     }
 }
