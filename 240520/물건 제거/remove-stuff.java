@@ -34,23 +34,26 @@ public class Main {
     
     static void simulate() {
         int time = 0;
+        Arrays.sort(machines); // 기계들을 용량에 따라 정렬합니다.
 
-        while(!volumes.isEmpty()) {
-            boolean is = false;
-
-            for(int m : machines) {
-                if(volumes.isEmpty()) break;
-                
-                if(m >= volumes.peek()) {
+        while (!volumes.isEmpty()) {
+            boolean processed = false;
+            for (int m : machines) {
+                if (volumes.isEmpty()) break;
+                if (m >= volumes.peek()) {
                     volumes.poll();
-                    is = true;
+                    processed = true;
                 }
             }
-
-            if(!is) break;
+            
+            // 이번 라운드에서 하나도 처리하지 못했다면
+            if (!processed) { 
+                System.out.println(-1);
+                return;
+            }
             time++;
         }
 
-        System.out.println(volumes.isEmpty() ? time : -1);
+        System.out.println(time);
     }
 }
