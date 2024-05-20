@@ -23,17 +23,23 @@ public class Main {
     }
     
     static void simulate() {
-        int min = arr[0];
-        int count = 1;
-        for(int i=1; i<N-1; i++) {
-            if(min <= arr[i] && arr[i] <= arr[i+1]) {
-                min = arr[i];
-                count++;
+        int[] dp = new int[N];
+
+        for(int i=0; i<N; i++) {
+            // 각 요소의 최소 LIS 길이를 1로 초기화
+            dp[i] = 1;
+
+            for(int j=0; j<i; j++) {
+                // 현재 요소가 이전 요소보다 크고, 더 긴 부분 수열을 찾은 경우
+                if(arr[j] < arr[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                }
             }
         }
 
-        if(arr[N-1] >= min) count++;
-
-        System.out.println(count);
+        int max = Arrays.stream(dp)
+                    .max()
+                    .getAsInt();
+        System.out.println(max);
     }
 }
