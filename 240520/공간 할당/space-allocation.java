@@ -49,7 +49,7 @@ public class Main {
             int satisfaction = satisfactions[i];
             int space = spaces[i];
 
-            for(int j=S_max; j>= satisfaction; j--) {
+            for(int j=S_max; j>= Math.max(M, satisfaction); j--) {
                 if(dp[j - satisfaction] != Integer.MAX_VALUE)
                     dp[j] = Math.min(dp[j], dp[j - satisfaction] + space);
             }
