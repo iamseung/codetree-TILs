@@ -110,6 +110,8 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         Dice dice = new Dice();
 
+        map[SY][SX] = 0;
+
         for(int d : dices) {
             int[] direction = dir[d];
             int nx = SX + direction[1];
@@ -122,8 +124,10 @@ public class Main {
             dice.move(d);
 
             if(map[ny][nx] == 0) {
+                // 칸이 0이면 주사위 뒷면 복사
                 map[ny][nx] = dice.getBack();
             } else {
+                // 칸이 0이 아니면 주사위에 수 복사, 칸 초기화
                 dice.setBack(map[ny][nx]);
                 map[ny][nx] = 0;
             }
