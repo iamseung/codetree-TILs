@@ -87,8 +87,8 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        SX = Integer.parseInt(st.nextToken());
         SY = Integer.parseInt(st.nextToken());
+        SX = Integer.parseInt(st.nextToken());
         D = Integer.parseInt(st.nextToken());
 
         map = new int[N][M];
